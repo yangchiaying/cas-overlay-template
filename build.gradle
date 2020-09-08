@@ -70,6 +70,12 @@ apply from: rootProject.file("gradle/springboot.gradle")
 apply from: rootProject.file("gradle/dockerjib.gradle")
 
 dependencies {
+    if (project.hasProperty("casmodules")) {
+        def dependencies = project.getProperty("casmodules").split(",")
+        dependencies.each { 
+            implementation "org.apereo.cas:cas-server-${it}:${casServerVersion}"
+        }
+    }
     // Other CAS dependencies/modules may be listed here...
     // implementation "org.apereo.cas:cas-server-support-json-service-registry:${casServerVersion}"
 }
