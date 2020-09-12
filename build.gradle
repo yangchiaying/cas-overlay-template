@@ -4,16 +4,16 @@ buildscript {
         gradlePluginPortal()
         mavenCentral()
         jcenter()
-        maven { 
-            url "https://repo.spring.io/libs-milestone" 
+        maven {
+            url "https://repo.spring.io/libs-milestone"
             mavenContent { releasesOnly() }
         }
-        maven { 
-            url "https://repo.spring.io/libs-snapshot" 
+        maven {
+            url "https://repo.spring.io/libs-snapshot"
             mavenContent { snapshotsOnly() }
         }
-        maven { 
-            url "https://plugins.gradle.org/m2/" 
+        maven {
+            url "https://plugins.gradle.org/m2/"
             mavenContent { releasesOnly() }
         }
     }
@@ -23,6 +23,8 @@ buildscript {
         classpath "gradle.plugin.com.google.cloud.tools:jib-gradle-plugin:${project.jibVersion}"
         classpath "io.freefair.gradle:maven-plugin:${project.gradleMavenPluginVersion}"
         classpath "io.freefair.gradle:lombok-plugin:${project.gradleLombokPluginVersion}"
+
+        classpath 'gradle.plugin.com.github.ayltai:spring-graalvm-native-plugin:1.2.2'
     }
 }
 
@@ -30,25 +32,25 @@ repositories {
     mavenLocal()
     mavenCentral()
     jcenter()
-    maven { 
-        url "https://oss.sonatype.org/content/repositories/snapshots" 
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots"
         mavenContent { snapshotsOnly() }
     }
-    maven { 
+    maven {
         mavenContent { releasesOnly() }
-        url "https://build.shibboleth.net/nexus/content/repositories/releases/" 
+        url "https://build.shibboleth.net/nexus/content/repositories/releases/"
     }
-    maven { 
+    maven {
         mavenContent { releasesOnly() }
-        url "https://repo.spring.io/milestone/" 
+        url "https://repo.spring.io/milestone/"
     }
-    maven { 
-        url "https://repo.spring.io/snapshot/" 
+    maven {
+        url "https://repo.spring.io/snapshot/"
         mavenContent { snapshotsOnly() }
     }
-    maven { 
+    maven {
         mavenContent { snapshotsOnly() }
-        url "https://oss.jfrog.org/artifactory/oss-snapshot-local" 
+        url "https://oss.jfrog.org/artifactory/oss-snapshot-local"
     }
 }
 
@@ -60,6 +62,8 @@ project.ext."casWebApplicationBinaryName" = casWebApplicationBinaryName
 
 apply plugin: "io.freefair.war-overlay"
 apply plugin: "io.freefair.lombok"
+apply plugin: 'com.github.ayltai.spring-graalvm-native-plugin'
+
 apply from: rootProject.file("gradle/tasks.gradle")
 
 apply plugin: "war"
@@ -69,10 +73,23 @@ apply plugin: "idea"
 apply from: rootProject.file("gradle/springboot.gradle")
 apply from: rootProject.file("gradle/dockerjib.gradle")
 
+nativeImage {
+    mainClassName = "org.apereo.cas.CasNativeWebApplication"
+
+    traceClassInitialization = true
+    reportExceptionStackTraces = true
+    removeUnusedAutoConfig = true
+    disableToolchainChecking = true
+    enableHttp = true
+    enableHttps = true
+    maxHeapSize = "4G"
+    javaVersion = project.targetCompatibility
+}
+
 dependencies {
     if (project.hasProperty("casmodules")) {
         def dependencies = project.getProperty("casmodules").split(",")
-        dependencies.each { 
+        dependencies.each {
             implementation "org.apereo.cas:cas-server-${it}:${casServerVersion}"
         }
     }
@@ -81,12 +98,12 @@ dependencies {
 }
 
 tasks.findByName("jibDockerBuild")
-    .dependsOn(copyWebAppIntoJib, copyConfigIntoJib)
-    .finalizedBy(deleteWebAppFromJib)
+        .dependsOn(copyWebAppIntoJib, copyConfigIntoJib)
+        .finalizedBy(deleteWebAppFromJib)
 
 tasks.findByName("jib")
-    .dependsOn(copyWebAppIntoJib, copyConfigIntoJib)
-    .finalizedBy(deleteWebAppFromJib)
+        .dependsOn(copyWebAppIntoJib, copyConfigIntoJib)
+        .finalizedBy(deleteWebAppFromJib)
 
 configurations.all {
     resolutionStrategy {
@@ -104,8 +121,8 @@ configurations.all {
 
 eclipse {
     classpath {
-       downloadSources = true
-       downloadJavadoc = true
+        downloadSources = true
+        downloadJavadoc = true
     }
 }
 
