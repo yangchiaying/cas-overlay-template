@@ -70,13 +70,17 @@ apply from: rootProject.file("gradle/springboot.gradle")
 apply from: rootProject.file("gradle/dockerjib.gradle")
 
 dependencies {
-    if (project.hasProperty("casmodules")) {
-        def dependencies = project.getProperty("casmodules").split(",")
-        dependencies.each { 
-            implementation "org.apereo.cas:cas-server-${it}:${casServerVersion}"
+    // Add modules in format compatible with overlay casModules property
+    if (project.hasProperty("casModules")) {
+        def dependencies = project.getProperty("casModules").split(",")
+        dependencies.each {
+            def projectsToAdd = rootProject.subprojects.findAll {project ->
+                project.name == "cas-server-core-${it}" || project.name == "cas-server-support-${it}"
+            }
+            projectsToAdd.each {implementation it}
         }
     }
-    // Other CAS dependencies/modules may be listed here...
+    // CAS dependencies/modules may be listed here statically...
     // implementation "org.apereo.cas:cas-server-support-json-service-registry:${casServerVersion}"
 }
 
