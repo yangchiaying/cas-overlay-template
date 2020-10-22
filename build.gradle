@@ -74,8 +74,9 @@ apply from: rootProject.file("gradle/springboot.gradle")
 apply from: rootProject.file("gradle/dockerjib.gradle")
 
 nativeImage {
-    mainClassName = "org.apereo.cas.CasNativeWebApplication"
-
+//    mainClassName = "org.apereo.cas.CasNativeWebApplication"
+    mainClassName = "org.apereo.cas.web.CasWebApplication"
+    toolVersion = "20.2.1"
     traceClassInitialization = true
     reportExceptionStackTraces = true
     removeUnusedAutoConfig = true
@@ -83,6 +84,7 @@ nativeImage {
     enableHttp = true
     enableHttps = true
     maxHeapSize = "4G"
+    download = "skip"
     javaVersion = project.targetCompatibility
 }
 
@@ -95,6 +97,10 @@ dependencies {
     }
     // Other CAS dependencies/modules may be listed here...
     // implementation "org.apereo.cas:cas-server-support-json-service-registry:${casServerVersion}"
+    implementation "org.apereo.cas:cas-server-webapp-init:${casServerVersion}"
+
+    compileOnly "org.springframework.boot:spring-boot-starter-webflux:${springBootVersion}"
+    compileOnly "org.springframework.boot:spring-boot-starter-reactor-netty:${springBootVersion}"
 }
 
 tasks.findByName("jibDockerBuild")
