@@ -61,6 +61,10 @@ springBoot {
     mainClassName = "org.apereo.cas.web.CasWebApplication"
 }
 
+bootBuildImage {
+    imageName = "apereo/cas:${casServerVersion}"
+}
+
 bootWar {
     def executable = project.hasProperty("executable") && Boolean.valueOf(project.getProperty("executable"))
     if (executable) {
