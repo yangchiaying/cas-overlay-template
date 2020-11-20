@@ -24,7 +24,7 @@ buildscript {
         classpath "io.freefair.gradle:maven-plugin:${project.gradleMavenPluginVersion}"
         classpath "io.freefair.gradle:lombok-plugin:${project.gradleLombokPluginVersion}"
 
-        classpath 'gradle.plugin.com.github.ayltai:spring-graalvm-native-plugin:1.3.0'
+        classpath 'gradle.plugin.com.github.ayltai:spring-graalvm-native-plugin:1.4.0'
     }
 }
 
