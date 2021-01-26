@@ -24,7 +24,7 @@ buildscript {
         classpath "io.freefair.gradle:maven-plugin:${project.gradleMavenPluginVersion}"
         classpath "io.freefair.gradle:lombok-plugin:${project.gradleLombokPluginVersion}"
 
-        classpath 'gradle.plugin.com.github.ayltai:spring-graalvm-native-plugin:1.4.1'
+        classpath 'gradle.plugin.com.github.ayltai:spring-graalvm-native-plugin:1.4.2'
     }
 }
 
@@ -80,7 +80,7 @@ nativeImage {
     reportExceptionStackTraces = true
     removeUnusedAutoConfig = true
     // traceClassInitializationEnabled = true
-    traceClassInitializationFor = ["org.apache.commons.logging.LogFactory", "org.springframework.boot.logging.java.JavaLoggingSystem\$Factory"]
+    traceClassInitializationFor = ["org.apache.commons.logging.LogFactory"]
     disableToolchainChecking = true
     removeSaturatedTypeFlows = true
     printAnalysisCallTree = true
