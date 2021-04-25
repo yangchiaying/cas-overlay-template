@@ -24,7 +24,7 @@ buildscript {
         classpath "io.freefair.gradle:maven-plugin:${project.gradleMavenPluginVersion}"
         classpath "io.freefair.gradle:lombok-plugin:${project.gradleLombokPluginVersion}"
 
-        classpath 'gradle.plugin.com.github.ayltai:spring-graalvm-native-plugin:1.4.6'
+        classpath 'gradle.plugin.com.github.ayltai:spring-graalvm-native-plugin:1.4.7'
     }
 }
 
@@ -75,7 +75,7 @@ apply from: rootProject.file("gradle/dockerjib.gradle")
 
 nativeImage {
     mainClassName = "org.apereo.cas.web.CasWebApplication"
-    toolVersion = "21.0.0"
+    toolVersion = "21.1.0"
     springNativeMode = "reflection"
     reportExceptionStackTraces = true
     removeUnusedAutoConfig = true
