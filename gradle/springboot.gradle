@@ -71,7 +71,6 @@ bootWar {
     }
     archiveName "${casWebApplicationBinaryName}"
     baseName "cas"
-    excludeDevtools = false
 
     entryCompression = ZipEntryCompression.STORED
     /*
