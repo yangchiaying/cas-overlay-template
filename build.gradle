@@ -3,7 +3,6 @@ buildscript {
         mavenLocal()
         gradlePluginPortal()
         mavenCentral()
-        jcenter()
         maven {
             url "https://repo.spring.io/libs-milestone"
             mavenContent { releasesOnly() }
@@ -24,7 +23,7 @@ buildscript {
         classpath "io.freefair.gradle:maven-plugin:${project.gradleMavenPluginVersion}"
         classpath "io.freefair.gradle:lombok-plugin:${project.gradleLombokPluginVersion}"
 
-        // classpath 'com.github.ayltai:spring-graalvm-native-plugin:1.4.9'
+        classpath 'com.github.ayltai:spring-graalvm-native-plugin:1.4.10'
     }
 }
 
@@ -62,7 +61,7 @@ project.ext."casWebApplicationBinaryName" = casWebApplicationBinaryName
 
 apply plugin: "io.freefair.war-overlay"
 apply plugin: "io.freefair.lombok"
-// apply plugin: 'com.github.ayltai.spring-graalvm-native-plugin'
+apply plugin: 'com.github.ayltai.spring-graalvm-native-plugin'
 
 apply from: rootProject.file("gradle/tasks.gradle")
 
@@ -73,25 +72,25 @@ apply plugin: "idea"
 apply from: rootProject.file("gradle/springboot.gradle")
 apply from: rootProject.file("gradle/dockerjib.gradle")
 
-// nativeImage {
-//     mainClassName = "org.apereo.cas.web.CasWebApplication"
-//     toolVersion = "21.1.0"
-//     springNativeMode = "reflection"
-//     reportExceptionStackTraces = true
-//     removeUnusedAutoConfig = true
-//     disableToolchainChecking = true
-//     removeSaturatedTypeFlows = true
-//     printAnalysisCallTree = true
-//     enableAllSecurityServices = true
-//     removeJmxSupport = false
-//     warnMissingSelectorHints = true
-//     enableHttp = true
-//     enableHttps = true
-//     maxHeapSize = "8G"
-//     download = "skip"
-//     javaVersion = project.targetCompatibility
-//     initializeAtBuildTime = ["org.apache.commons.logging.LogFactory", "org.springframework.util.unit.DataSize"]
-// }
+nativeImage {
+    mainClassName = "org.apereo.cas.web.CasWebApplication"
+    toolVersion = "21.1.0"
+    springNativeMode = "reflection"
+    reportExceptionStackTraces = true
+    removeUnusedAutoConfig = true
+    disableToolchainChecking = true
+    removeSaturatedTypeFlows = true
+    printAnalysisCallTree = true
+    enableAllSecurityServices = true
+    removeJmxSupport = false
+    warnMissingSelectorHints = true
+    enableHttp = true
+    enableHttps = true
+    maxHeapSize = "8G"
+    download = "skip"
+    javaVersion = project.targetCompatibility
+    initializeAtBuildTime = ["org.apache.commons.logging.LogFactory", "org.springframework.util.unit.DataSize"]
+}
 
 dependencies {
     if (project.hasProperty("casmodules")) {
