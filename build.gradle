@@ -77,7 +77,7 @@ apply from: rootProject.file("gradle/dockerjib.gradle")
 
 nativeImage {
     mainClassName = "org.apereo.cas.web.CasWebApplication"
-    toolVersion = "21.1.0"
+    toolVersion = "21.2.0"
     springNativeMode = "reflection"
     reportExceptionStackTraces = true
     removeUnusedAutoConfig = true

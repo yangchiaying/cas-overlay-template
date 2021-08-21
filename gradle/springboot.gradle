@@ -2,6 +2,5 @@ apply plugin: "org.springframework.boot"
 
 springBoot {
     buildInfo()
-    mainClassName = "org.apereo.cas.web.CasWebApplication"
+    mainClass.set("org.apereo.cas.web.CasWebApplication")
 }
-
