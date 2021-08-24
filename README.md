@@ -1,0 +1,1 @@
+# IMPORTANT NOTE<br/>******************************************************<br/>This repository is always automatically generated from the CAS Initializr. To learn more, please visit the [CAS documentation](https://apereo.github.io/cas).<br/>******************************************************<br/>
